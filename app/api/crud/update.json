@@ -1,0 +1,102 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "make"
+      },
+      {
+        "type": "text",
+        "name": "model"
+      },
+      {
+        "type": "text",
+        "name": "year"
+      },
+      {
+        "type": "number",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "update",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "cars",
+              "column": "make",
+              "type": "text",
+              "value": "{{$_POST.make}}"
+            },
+            {
+              "table": "cars",
+              "column": "model",
+              "type": "text",
+              "value": "{{$_POST.model}}"
+            },
+            {
+              "table": "cars",
+              "column": "year",
+              "type": "text",
+              "value": "{{$_POST.year}}"
+            }
+          ],
+          "table": "cars",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.id}}",
+                "data": {
+                  "column": "id"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "query": "UPDATE cars\nSET make = :P1 /* {{$_POST.make}} */, model = :P2 /* {{$_POST.model}} */, year = :P3 /* {{$_POST.year}} */\nWHERE id = :P4 /* {{$_POST.id}} */",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.make}}"
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.model}}"
+            },
+            {
+              "name": ":P3",
+              "type": "expression",
+              "value": "{{$_POST.year}}"
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P4",
+              "value": "{{$_POST.id}}"
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ],
+      "output": true
+    }
+  }
+}

@@ -1,0 +1,179 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/partials/registerform.ejs",
+      "linkedForm": "register1"
+    },
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "name"
+      },
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "firstname",
+        "name": "firstname"
+      },
+      {
+        "type": "text",
+        "fieldName": "lastname",
+        "name": "lastname"
+      },
+      {
+        "type": "text",
+        "fieldName": "email",
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "fieldName": "password",
+        "name": "password"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "email",
+        "module": "return_json",
+        "action": "return_json",
+        "options": {
+          "pass": "simple",
+          "usemethod": "internal",
+          "inbound": "{{$_POST.email}}",
+          "usename": "email"
+        },
+        "meta": [
+          {
+            "name": "json",
+            "type": "object"
+          }
+        ]
+      },
+      {
+        "name": "checkemail",
+        "module": "mongo_find",
+        "action": "mongo_find",
+        "options": {
+          "database": "jams",
+          "collection": "users",
+          "inboundtype": "JSON",
+          "query": "{{email}}",
+          "querytype": "findOne"
+        },
+        "meta": [
+          {
+            "name": "_id",
+            "type": "string"
+          }
+        ],
+        "output": true
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{checkemail}}",
+          "then": {
+            "steps": {
+              "name": "found",
+              "module": "return_json",
+              "action": "return_json",
+              "options": {
+                "usemethod": "toclient",
+                "pass": "simple",
+                "usename": "message",
+                "inbound": "found",
+                "usestatus": 401
+              },
+              "meta": [
+                {
+                  "name": "json",
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "else": {
+            "steps": [
+              {
+                "name": "insuser",
+                "module": "mongo_insert",
+                "action": "mongo_insert",
+                "options": {
+                  "database": "jams",
+                  "collection": "users",
+                  "vars": {
+                    "firstname": "{{$_POST.firstname}}",
+                    "lastname": "{{$_POST.lastname}}",
+                    "mobile": "",
+                    "verificationcode": "{{secpin()}}",
+                    "password": "{{$_POST.password.sha256('dev2021')}}",
+                    "role": "User",
+                    "organisation": "",
+                    "userstate": "Approved",
+                    "email": "{{$_POST.email}}"
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "insertid",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "name": "createjwt",
+                "module": "jwtencode",
+                "action": "jwtset",
+                "options": {
+                  "secret": "dev2021",
+                  "sub": "{{insuser._id}}",
+                  "firstname": "{{insuser.firstname}}",
+                  "email": "{{insuser.email}}",
+                  "privs": "{{insuser.privs}}",
+                  "role": "{{insuser.role}}"
+                },
+                "meta": [
+                  {
+                    "name": "jwt",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "name": "notfound",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "toclient",
+                  "usestatus": 200,
+                  "pass": "in",
+                  "inbound": "{{createjwt}}"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

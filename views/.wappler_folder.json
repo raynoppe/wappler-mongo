@@ -1,0 +1,54 @@
+{
+  "home.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "about.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "index.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "events.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "myjams.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "profile.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "more.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "shouts.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "register.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "login.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "verifyemail.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "register_activate.ejs": {
+    "layoutPage": "main",
+    "description": ""
+  },
+  "users.ejs": {
+    "layoutPage": "app",
+    "description": ""
+  }
+}

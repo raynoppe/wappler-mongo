@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "svar1"
+      },
+      {
+        "type": "text",
+        "name": "svar2"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "testing",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "key": "testing",
+          "value": "{{$_POST.name.like()}}"
+        },
+        "output": true
+      },
+      {
+        "name": "qbuilder",
+        "module": "mongo_querybuilder",
+        "action": "mongo_querybuilder",
+        "options": {
+          "qtype": "and",
+          "vars": {
+            "companyregistrationnumber": "{{$_POST.svar1.mongo_in()}}"
+          }
+        },
+        "meta": [
+          {
+            "name": "result",
+            "type": "object"
+          }
+        ],
+        "output": true
+      },
+      {
+        "name": "testfind",
+        "module": "mongo_find",
+        "action": "mongo_find",
+        "options": {
+          "database": "se",
+          "collection": "contacts",
+          "inboundtype": "JSON",
+          "querytype": "find",
+          "query": "{{qbuilder}}"
+        },
+        "meta": [
+          {
+            "name": "_id",
+            "type": "string"
+          }
+        ],
+        "output": true
+      }
+    ]
+  }
+}

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+
+<head>
+  <base href="/">
+  <script src="/dmxAppConnect/dmxAppConnect.js"></script>
+  <meta charset="UTF-8">
+  <title>Cocktail</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/dmxAppConnect/dmxBootstrap4Navigation/dmxBootstrap4Navigation.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxRouting/dmxRouting.js" defer=""></script>
+  <link rel="stylesheet" href="/fontawesome5/css/all.min.css" />
+  <script src="/dmxAppConnect/dmxBrowser/dmxBrowser.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxDatastore/dmxDatastore.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootbox/bootbox.all.min.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootbox/dmxBootbox.js" defer=""></script>
+  <script src="/js/custom.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxStateManagement/dmxStateManagement.js" defer=""></script>
+  <link rel="stylesheet" href="/bootstrap/4/superhero/bootstrap.min.css" />
+  <link rel="stylesheet" href="/dmxAppConnect/dmxPreloader/dmxPreloader.css" />
+  <script src="/dmxAppConnect/dmxPreloader/dmxPreloader.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootstrap4Toasts/dmxBootstrap4Toasts.js" defer=""></script>
+</head>
+
+<body is="dmx-app" id="main">
+  <div is="dmx-bs4-toasts" id="toasts1"></div>
+  <dmx-preloader id="preloader1" bgcolor="#2b3e50" color="#ffffff" spinner="circle"></dmx-preloader>
+  <dmx-local-manager id="user"></dmx-local-manager>
+  <dmx-value id="shownavi" dmx-bind:value="false"></dmx-value>
+  <dmx-datastore id="maindata"></dmx-datastore>
+  <script is="dmx-flow" id="flow_main" type="text/dmx-flow" autorun>{
+  condition: {
+    if: "{{maindata.data[0].sid}}",
+    then: {
+      steps: {
+        assign: {value: "{{true}}", name: "shownavi"}
+      }
+    },
+    else: {
+      steps: {
+        assign: {value: "{{false}}", name: "shownavi"}
+      }
+    }
+  }
+}</script>
+  <div is="dmx-browser" id="browser_home"></div>
+  <div class="d-flex ct-navi" dmx-show="shownavi.value">
+    <div class="d-flex ct-navi-btn-container" id="cnt_myjams">
+      <button id="btn_myjams" class="btn btn-block  ct-navi-btn" dmx-on:click="browser_home.goto('/myjams')"><i class="fa fa-pepper-hot fa-2x"></i><span>My Jams</span></button>
+    </div>
+    <div class="d-flex ct-navi-btn-container" id="ctn_events">
+      <button id="btn_events" class="btn btn-block ct-navi-btn" dmx-on:click="browser_home.goto('/events')"><i class="fa fa-calendar fa-2x"></i><span>Events</span></button>
+    </div>
+
+    <div class="d-flex ct-navi-btn-container" id="ctn_shouts">
+      <button id="btn_profile" class="btn btn-block  ct-navi-btn" dmx-on:click="browser_home.goto('/shouts')"><i class="fas fa-headset fa-2x"></i><span>Shouts</span></button>
+    </div>
+    <div class="d-flex ct-navi-btn-container" id="ctn_profile">
+      <button id="btn_home" class="btn btn-block ct-navi-btn" dmx-on:click="browser_home.goto('/profile')"><i class="fas fa-user fa-2x"></i><span>Profile</span></button>
+    </div>
+    <div class="d-flex ct-navi-btn-container" id="ctn_main">
+      <button id="btn_more" class="btn btn-block  ct-navi-btn" dmx-on:click="browser_home.goto('/more')"><i class="fas fa-ellipsis-h fa-2x"></i><span>More</span></button>
+    </div>
+  </div>
+  <div is="dmx-view" id="content">
+    <%- await include(content, locals); %>
+  </div>
+
+  <script src="/bootstrap/4/js/popper.min.js"></script>
+  <script src="/bootstrap/4/js/bootstrap.min.js"></script>
+</body>
+
+</html>

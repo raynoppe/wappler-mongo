@@ -1,0 +1,165 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "name": "password"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "buildlogin",
+        "module": "mongo_querybuilder",
+        "action": "mongo_querybuilder",
+        "options": {
+          "qtype": "and",
+          "vars": {
+            "email": "{{$_POST.email}}",
+            "password": "{{$_POST.password.sha256('dev2021')}}"
+          }
+        },
+        "meta": [
+          {
+            "name": "result",
+            "type": "object"
+          }
+        ]
+      },
+      {
+        "name": "dologin",
+        "module": "mongo_find",
+        "action": "mongo_find",
+        "options": {
+          "collection": "users",
+          "inboundtype": "JSON",
+          "querytype": "findOne",
+          "database": "jams",
+          "query": "{{buildlogin}}"
+        },
+        "meta": [
+          {
+            "name": "_id",
+            "type": "string"
+          }
+        ],
+        "output": true
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{dologin !== null}}",
+          "then": {
+            "steps": {
+              "name": "",
+              "module": "core",
+              "action": "condition",
+              "options": {
+                "if": "{{dologin.active == 'false'}}",
+                "then": {
+                  "steps": {
+                    "name": "passfail",
+                    "module": "return_json",
+                    "action": "return_json",
+                    "options": {
+                      "usemethod": "toclient",
+                      "pass": "simple",
+                      "usename": "message",
+                      "usestatus": 401,
+                      "inbound": "Account not active"
+                    },
+                    "meta": [
+                      {
+                        "name": "json",
+                        "type": "object"
+                      }
+                    ]
+                  }
+                },
+                "else": {
+                  "steps": [
+                    {
+                      "name": "jwt",
+                      "module": "jwtencode",
+                      "action": "jwtset",
+                      "options": {
+                        "secret": "dev2021",
+                        "sub": "{{dologin._id}}",
+                        "firstname": "{{dologin.firstname}}",
+                        "email": "{{dologin.email}}",
+                        "privs": "{{dologin.role}}",
+                        "role": "{{dologin.role}}"
+                      },
+                      "meta": [
+                        {
+                          "name": "jwt",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "loginjwt",
+                      "module": "return_json",
+                      "action": "return_json",
+                      "options": {
+                        "usemethod": "toclient",
+                        "usestatus": 200,
+                        "pass": "in",
+                        "inbound": "{{jwt}}"
+                      },
+                      "meta": [
+                        {
+                          "name": "json",
+                          "type": "object"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "outputType": "boolean"
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "passfail_copy",
+              "module": "return_json",
+              "action": "return_json",
+              "options": {
+                "usemethod": "toclient",
+                "pass": "simple",
+                "usename": "message",
+                "usestatus": 500,
+                "inbound": "Password is incorrect"
+              },
+              "meta": [
+                {
+                  "name": "json",
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

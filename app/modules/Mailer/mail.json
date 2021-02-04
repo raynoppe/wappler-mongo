@@ -1,0 +1,10 @@
+{
+  "name": "mail",
+  "module": "mail",
+  "action": "setup",
+  "options": {
+    "host": "smtp.mailgun.org",
+    "username": "postmaster@mapped.life",
+    "password": "26b1e5c0ecb6bb7146b97a518e437d29-e5da0167-40275bcb"
+  }
+}

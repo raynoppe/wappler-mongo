@@ -1,0 +1,41 @@
+{
+  "projectName": "NodeSPA",
+  "styleFile": "/css/style.css",
+  "assetsFolder": "/assets",
+  "designFramework": "bootstrap4",
+  "frameworks": [
+    {
+      "name": "jquery_slim_33",
+      "type": "cdn"
+    },
+    {
+      "name": "fontawesome_4",
+      "type": "cdn"
+    },
+    {
+      "name": "bootstrap4",
+      "type": "local"
+    },
+    {
+      "name": "appConnect",
+      "type": "local"
+    }
+  ],
+  "projectServerModel": "node",
+  "webRootFolder": "/public",
+  "useRouting": true,
+  "addBase": true,
+  "routingHandler": "node",
+  "targets": [
+    {
+      "name": "Development",
+      "remoteURL": "http://localhost:3000/",
+      "access": "local",
+      "localFolder": "file:///Users/raynoppe/Documents/wappler/nodespa"
+    }
+  ],
+  "activeTarget": "Development",
+  "projectType": "web",
+  "npmInstall": true,
+  "projectLinksType": "site"
+}

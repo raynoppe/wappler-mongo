@@ -1,0 +1,140 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "firstname"
+      },
+      {
+        "type": "text",
+        "name": "lastname"
+      },
+      {
+        "type": "text",
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "name": "mobile"
+      },
+      {
+        "type": "text",
+        "name": "role"
+      },
+      {
+        "type": "text",
+        "name": "userstate"
+      },
+      {
+        "type": "text",
+        "name": "_id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "exec",
+        "module": "core",
+        "action": "exec",
+        "options": {
+          "exec": "secure"
+        },
+        "output": false
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{exec.userdetails.role == 'Admin'}}",
+          "then": {
+            "steps": [
+              {
+                "name": "query",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "internal",
+                  "pass": "simple",
+                  "usename": "_id",
+                  "inbound": "{{$_POST._id}}"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              },
+              {
+                "name": "updateuser",
+                "module": "mongo_update",
+                "action": "mongo_update",
+                "options": {
+                  "database": "jams",
+                  "collection": "users",
+                  "inboundtype": "JSON",
+                  "query": "{{query}}",
+                  "vars": {
+                    "firstname": "{{$_POST.firstname}}",
+                    "lastname": "{{$_POST.lastname}}",
+                    "email": "{{$_POST.email}}",
+                    "mobile": "{{$_POST.mobile}}",
+                    "role": "{{$_POST.role}}",
+                    "userstate": "{{$_POST.userstate}}"
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "result",
+                    "type": "array"
+                  }
+                ]
+              },
+              {
+                "name": "updatetrue",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "toclient",
+                  "usestatus": 200,
+                  "pass": "simple",
+                  "usename": "message",
+                  "inbound": "Update done"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              }
+            ]
+          },
+          "else": {
+            "steps": {
+              "name": "",
+              "module": "return_json",
+              "action": "return_json",
+              "options": {
+                "usemethod": "toclient",
+                "usestatus": 401,
+                "pass": "simple",
+                "usename": "message",
+                "inbound": "Not authorised"
+              },
+              "meta": [
+                {
+                  "name": "json",
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

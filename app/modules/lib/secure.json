@@ -1,0 +1,223 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "token"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "options": {
+          "rules": {}
+        },
+        "name": "token"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "usetoken",
+        "module": "core",
+        "action": "setvalue",
+        "options": {
+          "key": "usetoken",
+          "value": "none"
+        }
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_POST.token}}",
+          "then": {
+            "steps": {
+              "name": "usetoken",
+              "module": "core",
+              "action": "setvalue",
+              "options": {
+                "key": "usetoken",
+                "value": "{{$_POST.token}}"
+              },
+              "output": true
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "",
+              "options": {
+                "comment": "Not used"
+              }
+            }
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_GET.token}}",
+          "then": {
+            "steps": {
+              "name": "usetoken",
+              "module": "core",
+              "action": "setvalue",
+              "options": {
+                "key": "usetoken",
+                "value": "{{$_GET.token}}"
+              },
+              "output": true
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "",
+              "options": {
+                "comment": "Nothing here"
+              }
+            }
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{usetoken != 'none'}}",
+          "then": {
+            "steps": {
+              "name": "",
+              "options": {
+                "comment": "Next"
+              }
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "Error",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 401,
+                "data": "Token is required"
+              }
+            }
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "user",
+        "module": "jwtdecode",
+        "action": "jwtdecode",
+        "options": {
+          "secret": "dev2021",
+          "token": "{{usetoken}}"
+        },
+        "meta": [
+          {
+            "name": "sub",
+            "type": "text"
+          },
+          {
+            "name": "firstname",
+            "type": "text"
+          },
+          {
+            "name": "email",
+            "type": "text"
+          },
+          {
+            "name": "privs",
+            "type": "text"
+          }
+        ]
+      },
+      {
+        "name": "returnid",
+        "module": "return_json",
+        "action": "return_json",
+        "options": {
+          "usemethod": "internal",
+          "pass": "simple",
+          "usename": "_id",
+          "inbound": "{{user.sub}}"
+        },
+        "meta": [
+          {
+            "name": "json",
+            "type": "object"
+          }
+        ]
+      },
+      {
+        "name": "finduser",
+        "module": "mongo_find",
+        "action": "mongo_find",
+        "options": {
+          "database": "jams",
+          "collection": "users",
+          "inboundtype": "JSON",
+          "querytype": "findOne",
+          "query": "{{returnid}}",
+          "projection": "{ \"password\": 0 }"
+        },
+        "meta": [
+          {
+            "name": "_id",
+            "type": "string"
+          }
+        ],
+        "output": false
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{finduser}}",
+          "then": {
+            "steps": [
+              {
+                "name": "",
+                "options": {
+                  "comment": "go to next"
+                }
+              },
+              {
+                "name": "userdetails",
+                "module": "core",
+                "action": "setvalue",
+                "options": {
+                  "value": "{{finduser}}",
+                  "key": "userdetails"
+                },
+                "outputType": "object",
+                "output": true
+              }
+            ]
+          },
+          "else": {
+            "steps": {
+              "name": "Error",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 401,
+                "data": "Token is not valid"
+              }
+            }
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

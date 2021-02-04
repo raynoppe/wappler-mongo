@@ -1,0 +1,30 @@
+{
+  type: 'jwt_set',
+  module : 'jwtencode',
+  action : 'jwtset',
+  groupTitle : 'Mongo DB',
+  groupIcon : 'fas fa-lg fa-database comp-data',
+  title : 'JWT Encode',
+  icon : 'fas fa-lg fa-table comp-data',
+  dataScheme: [
+    {name: 'jwt', type: 'text'}
+  ],
+  dataPickObject: true,
+  // globalVars: {
+  //   '$_GET' : ['name']
+  // },
+  properties : [
+    {
+      group: 'JWT Parameters',
+      variables: [
+        { name: 'name', optionName: 'name', title: 'Name', type: 'text', required: true, defaultValue: ''},
+        { name: 'secret', optionName: 'secret', title: 'Secret', type: 'text', required: true, defaultValue: '', serverDataBindings: true},
+        { name: 'sub', optionName: 'sub', title: 'Sub', type: 'text', required: true, defaultValue: '', serverDataBindings: true},
+        { name: 'firstname', optionName: 'firstname', title: 'First Name', type: 'text', required: true, defaultValue: '', serverDataBindings: true},
+        { name: 'email', optionName: 'email', title: 'Email', type: 'text', required: true, defaultValue: '', serverDataBindings: true},
+        { name: 'role', optionName: 'role', title: 'Role', type: 'text', required: true, defaultValue: '', serverDataBindings: true},
+        { name: 'output', optionName: 'output', title: 'Output', type: 'boolean', defaultValue: false }
+      ]
+    }
+  ]
+}

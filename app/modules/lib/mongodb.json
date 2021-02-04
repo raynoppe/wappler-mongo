@@ -1,0 +1,13 @@
+{
+  "name": "mdb",
+  "module": "mongo_connect",
+  "action": "mongo_connect",
+  "options": {},
+  "meta": [
+    {
+      "name": "dbconnection",
+      "type": "object"
+    }
+  ],
+  "output": true
+}

@@ -1,0 +1,164 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "email"
+      },
+      {
+        "type": "text",
+        "name": "verificationcode"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "formatinbound",
+        "module": "mongo_querybuilder",
+        "action": "mongo_querybuilder",
+        "options": {
+          "qtype": "and",
+          "vars": {
+            "email": "{{$_POST.email}}",
+            "verificationcode": "{{$_POST.verificationcode.toNumber()}}"
+          }
+        },
+        "meta": [
+          {
+            "name": "result",
+            "type": "object"
+          }
+        ]
+      },
+      {
+        "name": "checkpinemail",
+        "module": "mongo_find",
+        "action": "mongo_find",
+        "options": {
+          "database": "jams",
+          "collection": "users",
+          "inboundtype": "JSON",
+          "querytype": "findOne",
+          "query": "{{formatinbound}}"
+        },
+        "meta": [
+          {
+            "name": "_id",
+            "type": "string"
+          }
+        ],
+        "output": true
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{checkpinemail}}",
+          "then": {
+            "steps": [
+              {
+                "name": "getuser",
+                "module": "mongo_querybuilder",
+                "action": "mongo_querybuilder",
+                "options": {
+                  "qtype": "and",
+                  "vars": {
+                    "_id": "{{checkpinemail._id}}"
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "result",
+                    "type": "object"
+                  }
+                ],
+                "output": true
+              },
+              {
+                "name": "makerecordactive",
+                "module": "mongo_update",
+                "action": "mongo_update",
+                "options": {
+                  "database": "jams",
+                  "collection": "users",
+                  "inboundtype": "JSON",
+                  "query": "{{getuser}}",
+                  "vars": {
+                    "userstate": "Approved",
+                    "emailverified": "{{true}}",
+                    "verificationcode": "{{secpin()}}"
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "result",
+                    "type": "array"
+                  }
+                ]
+              },
+              {
+                "name": "userjwt",
+                "module": "jwtencode",
+                "action": "jwtset",
+                "options": {
+                  "secret": "dev2021",
+                  "sub": "{{checkpinemail._id}}",
+                  "firstname": "{{checkpinemail.firstname}}",
+                  "email": "{{checkpinemail.email}}",
+                  "privs": "{{checkpinemail.role}}",
+                  "role": "{{checkpinemail.role}}"
+                },
+                "meta": [
+                  {
+                    "name": "jwt",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "name": "sendjwt",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "toclient",
+                  "usestatus": 200,
+                  "pass": "in",
+                  "inbound": "{{userjwt}}"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              }
+            ]
+          },
+          "else": {
+            "steps": {
+              "name": "",
+              "module": "return_json",
+              "action": "return_json",
+              "options": {
+                "usemethod": "toclient",
+                "usestatus": 500,
+                "pass": "simple",
+                "usename": "message",
+                "inbound": "Pin and email don't match"
+              },
+              "meta": [
+                {
+                  "name": "json",
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

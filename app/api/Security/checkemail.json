@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "email",
+        "name": "email"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "CheckEmail",
+        "module": "mongo_find",
+        "action": "mongo_find",
+        "options": {
+          "collection": "users",
+          "database": "jams",
+          "inboundtype": "JSON",
+          "query": "{{$_POST}}",
+          "querytype": "count"
+        },
+        "meta": [
+          {
+            "name": "_id",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{CheckEmail}}",
+          "then": {
+            "steps": {
+              "name": "pass",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 200,
+                "data": "Pass"
+              }
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "exist",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 500,
+                "data": "exists"
+              }
+            }
+          }
+        },
+        "outputType": "boolean",
+        "output": true
+      }
+    ]
+  }
+}

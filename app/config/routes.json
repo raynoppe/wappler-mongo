@@ -1,0 +1,76 @@
+{
+  "routes": [
+    {
+      "path": "/register_confirm",
+      "url": "",
+      "routeType": "page",
+      "page": "register_confirm",
+      "layout": "main"
+    },
+    {
+      "path": "/home",
+      "page": "home",
+      "layout": "app"
+    },
+    {
+      "path": "/about",
+      "page": "about",
+      "layout": "main"
+    },
+    {
+      "path": "/",
+      "page": "index",
+      "layout": "main"
+    },
+    {
+      "path": "/events",
+      "page": "events",
+      "layout": "main"
+    },
+    {
+      "path": "/myjams",
+      "page": "myjams",
+      "layout": "main"
+    },
+    {
+      "path": "/profile",
+      "page": "profile",
+      "layout": "main"
+    },
+    {
+      "path": "/more",
+      "page": "more",
+      "layout": "main"
+    },
+    {
+      "path": "/shouts",
+      "page": "shouts",
+      "layout": "main"
+    },
+    {
+      "path": "/register",
+      "page": "register",
+      "layout": "main"
+    },
+    {
+      "path": "/login",
+      "page": "login",
+      "layout": "main"
+    },
+    {
+      "path": "/verifyemail",
+      "page": "verifyemail",
+      "layout": "main"
+    },
+    {
+      "path": "/register_activate",
+      "page": "register_activate",
+      "layout": "main"
+    },
+    {
+      "path": "/users",
+      "page": "users",
+      "layout": "app"
+    }
+  ]
+}

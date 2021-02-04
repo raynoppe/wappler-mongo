@@ -1,0 +1,60 @@
+{
+  type: 'mongo_find',
+  module : 'mongo_find',
+  action : 'mongo_find',
+  groupTitle : 'Mongo DB',
+  groupIcon : 'fas fa-lg fa-database comp-data',
+  title : 'Mongo Find',
+  icon : 'fas fa-lg fa-table comp-data',
+  dataScheme: [
+    { name: '_id', type: 'string' },
+  ],
+  dataPickObject: true,
+  // globalVars: {
+  //   '$_GET' : ['name']
+  // },
+  properties : [
+    {
+      group: 'Connection Settings',
+      variables: [
+        { name: 'name', optionName: 'name', title: 'Name', type: 'text', required: true, defaultValue: ''},
+        { name: 'database', optionName: 'database', title: 'Database', type: 'text', required: true, defaultValue: '', serverDataBindings: true},
+        { name: 'collection', optionName: 'collection', title: 'Collection', type: 'text', required: true, defaultValue: ''},
+        { name: 'conurl', optionName: 'conurl', title: 'Connection url', type: 'text', defaultValue: '', help: 'By default the server will connect to your local mongo instance mongodb://127.0.0.1:27017/. If you are using Mongo Atlas enter your mongodb+srv url', serverDataBindings: true},
+        { name: 'inboundtype', optionName: 'inboundtype', title: 'Inbound Type', 
+          type: 'droplist', 
+          values: [
+            {title: 'Select', value: ''},
+            {title: 'JSON', value: 'JSON'},
+            {title: 'Form', value: 'Form'}
+          ], defaultValue: '', serverDataBindings: true, required: true
+        },
+        { name: 'query', optionName: 'query', title: 'Query', type: 'text', defaultValue: '', serverDataBindings: true },
+        { name: 'projection', optionName: 'projection', title: 'Projection', type: 'text', defaultValue: '', serverDataBindings: true },
+        
+        { name: 'querytype', optionName: 'querytype', title: 'Query Type', 
+          type: 'droplist', 
+          values: [
+            {title: 'Select', value: ''},
+            {title: 'Find', value: 'find'},
+            {title: 'FindOne', value: 'findOne'},
+            {title: 'Count', value: 'count'}
+          ], defaultValue: '', serverDataBindings: true, required: true
+        },
+        { name: 'pagination', optionName: 'pagination', title: 'Pagination', 
+          type: 'droplist', 
+          values: [
+            {title: 'Yes', value: 'Yes', show:['limit', 'skip'], hide:[] },
+            {title: 'No', value: '', show:[], hide:['limit', 'skip']}
+          ], defaultValue: '',
+          help: 'Enable paging between records'
+        },
+        { name: 'limit', optionName: 'limit', title: 'Limit', type: 'text', defaultValue: '', serverDataBindings: true },
+        { name: 'skip', optionName: 'skip', title: 'Skip', type: 'text', defaultValue: '', serverDataBindings: true, help: 'Example 0 for the first records' },
+        { name: 'encodepassfield', optionName: 'encodepassfield', title: 'Replace password with hash string', type: 'boolean', defaultValue: false },
+        { name: 'newpass', optionName: 'newpass', title: 'Password hassed', type: 'text', defaultValue: '', serverDataBindings: true },
+        { name: 'output', optionName: 'output', title: 'Output', type: 'boolean', defaultValue: false }
+      ]
+    }
+  ]
+}

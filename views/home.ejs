@@ -1,0 +1,22 @@
+<!-- Wappler include head-page="layouts/app" is="dmx-app" id="app" appconnect="local" jquery_slim_35="local" fontawesome_4="local" bootstrap4="local" -->
+<script is="dmx-flow" id="logincheck" type="text/dmx-flow" autorun>{
+  condition: {
+    if: "{{!user.data.jwt}}",
+    then: {
+      steps: {
+        run: {action: "{{browser_home.goto('/')}}", name: "gohome"}
+      }
+    }
+  }
+}</script>
+<meta name="ac:route" content="/home">
+<div class="container wappler-block pt-5 pb-5">
+  <div class="row">
+    <div class="text-center col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+      <h4>This is the home page<br><small class="text-muted">If you don't like it, go do one.</small></h4>
+      <p>A nice paragraph</p>
+      <button class="btn btn-primary mb-3">Button</button>
+      <img class="wappler-type-picture w-100" height="150">
+    </div>
+  </div>
+</div>

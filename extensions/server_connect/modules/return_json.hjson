@@ -1,0 +1,51 @@
+{
+  type: 'mongo_return',
+  module : 'return_json',
+  action : 'return_json',
+  groupTitle : 'Mongo DB',
+  groupIcon : 'fas fa-lg fa-database comp-data',
+  title : 'Return JSON',
+  icon : 'fas fa-lg fa-table comp-data',
+  dataScheme: [
+    {name: 'json', type: 'object'}
+  ],
+  dataPickObject: true,
+  // globalVars: {
+  //   '$_GET' : ['name']
+  // },
+  properties : [
+    {
+      group: 'Data in',
+      variables: [
+        { name: 'name', optionName: 'name', title: 'Name', type: 'text', defaultValue: ''},
+        { name: 'usemethod', optionName: 'usemethod', title: 'Method', type: 'droplist', 
+          values: [
+            {title: 'Select', value: '', show:[], hide:['status'] },
+            {title: 'Keep internal', value: 'internal', show:[], hide:['usestatus'] },
+            {title: 'Return to client', value: 'toclient', show:['usestatus'], hide:[] }
+          ], defaultValue: '', help: 'Pass to next funtion or sent to client'
+        },
+        { name: 'usestatus', optionName: 'usestatus', title: 'Status', type: 'number', defaultValue: '', serverDataBindings: true},
+        { name: 'pass', optionName: 'pass', title: 'Return Type', type: 'droplist', 
+          values: [
+            {title: 'Select', value: '', show:[], hide:['inbound','vars'] },
+            {title: 'Key, Value', value: 'simple', show:['inbound'], hide:['vars'] },
+            {title: 'Object', value: 'custom', show:['vars'], hide:['inbound']},
+            {title: 'Pass through', value: 'in', show:['inbound'], hide:['vars'] },
+          ], defaultValue: '', help: 'Enable paging between records'
+        },
+        { name: 'usename', optionName: 'usename', title: 'Return var name', type: 'text', defaultValue: '', serverDataBindings: true},
+        { name: 'inbound', optionName: 'inbound', title: 'Return val', type: 'text', defaultValue: '', serverDataBindings: true},
+        { name: 'vars', optionName: 'vars', key: 'name', keyValue: 'value',
+          title: 'Vars', type: 'grid', defaultValue: {}, serverDataBindings: true,
+          columns: [
+            { field: 'name', caption: 'Name', size: '30%', editable: {type: 'text'} },
+            { field: 'value', caption: 'Value', size: '40%', allowJson: true, editable: {type: 'datapicker'} },
+          ],
+          newRecord: { name: '', value: ''}
+		 		},
+        { name: 'output', optionName: 'output', title: 'Output', type: 'boolean', defaultValue: false }
+      ]
+    }
+  ]
+}

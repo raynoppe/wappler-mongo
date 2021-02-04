@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "query"
+      },
+      {
+        "type": "text",
+        "name": "projection"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "found",
+      "module": "mongo_find",
+      "action": "mongo_find",
+      "options": {
+        "database": "se",
+        "collection": "manufacturers",
+        "querytype": "find",
+        "query": "{{$_POST.query}}",
+        "projection": "{{$_POST.projection}}",
+        "pagination": "Yes",
+        "limit": 10,
+        "skip": 0
+      },
+      "meta": [
+        {
+          "name": "result",
+          "type": "array"
+        }
+      ],
+      "output": true
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" bootstrap4="superhero" is="dmx-app" id="register" appConnect="local" components="{dmxBootstrap4Toasts:{}}" -->
+<div is="dmx-bs4-toasts" id="toasts_reg"></div>
+<div class="d-flex useh100 loginbgimg flex-column align-items-center justify-content-start">
+    <section class="usew100">
+
+        <div class="container homebox">
+            <div class="row justify-content-center p-3">
+                <div class="col regbox p-3">
+                    <div class="row">
+                        <div class="col text-center"><img src="/images/cocktail-white.svg" width="200">
+                            <h2 class="mb-3 text-center mt-3">Register</h2>
+                        </div>
+                    </div>
+                    <form id="form_register" is="dmx-api-form" method="post" action="/api/Security/registernoverification" post-data="json" dmx-on:start="preloader1.show()" dmx-on:done="preloader1.hide()"
+                        dmx-on:unauthorized="toasts_reg.show({message: 'Email exists', title: 'Error'})"
+                        dmx-on:success="user.set('email',data.email);user.set('firstname',data.firstname);user.set('jwt',data.jwt);user.set('role',data.role);browser_home.goto('/home')">
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" aria-describedby="input1_help">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="input1_help">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="text" class="form-control" id="email" name="email" aria-describedby="input1_help">
+                            <small id="input1_help2" class="form-text">Please use a valid e-mail address</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="text" class="form-control" id="password" name="password" aria-describedby="input1_help">
+                        </div>
+                        <button id="btn_proceed" class="btn btn-block btn-primary" type="submit">Register</button>
+                        <button id="btn_register" class="btn btn-block btn-light" dmx-on:click="browser_home.goto('/')">Already a user? Login</button>
+                    </form>
+                </div>
+                <div class="regbox pb-3 pt-3">
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<meta name="ac:route" content="/register">

@@ -1,0 +1,36 @@
+{
+  type: 'mongo_insert',
+  module : 'mongo_insert',
+  action : 'mongo_insert',
+  groupTitle : 'Mongo DB',
+  groupIcon : 'fas fa-lg fa-database comp-data',
+  title : 'Mongo insert',
+  icon : 'fas fa-lg fa-table comp-data',
+  dataScheme: [
+    {name: 'insertid', type: 'text'},
+  ],
+  dataPickObject: true,
+  // globalVars: {
+  //   '$_GET' : ['name']
+  // },
+  properties : [
+    {
+      group: 'JWT Parameters',
+      variables: [
+        { name: 'name', optionName: 'name', title: 'Name', type: 'text', required: true, defaultValue: ''},
+        { name: 'database', optionName: 'database', title: 'Database', type: 'text', required: true, defaultValue: '', serverDataBindings: true},
+        { name: 'collection', optionName: 'collection', title: 'Collection', type: 'text', required: true, defaultValue: ''},
+        { name: 'conurl', optionName: 'conurl', title: 'Connection url', type: 'text', defaultValue: '', help: 'By default the server will connect to your local mongo instance mongodb://127.0.0.1:27017/. If you are using Mongo Atlas enter your mongodb+srv url', serverDataBindings: true},
+        { name: 'vars', optionName: 'vars', key: 'name', keyValue: 'value',
+          title: 'Vars', type: 'grid', defaultValue: {}, serverDataBindings: true,
+          columns: [
+            { field: 'name', caption: 'Name', size: '30%', editable: {type: 'text'} },
+            { field: 'value', caption: 'Value', size: '40%', allowJson: true, editable: {type: 'datapicker'} },
+          ],
+          newRecord: { name: '', value: ''}
+		 		},
+        { name: 'output', optionName: 'output', title: 'Output', type: 'boolean', defaultValue: false }
+      ]
+    }
+  ]
+}

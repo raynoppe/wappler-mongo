@@ -1,0 +1,24 @@
+{
+  "name": "security",
+  "module": "auth",
+  "action": "provider",
+  "options": {
+    "secret": "D397VUvaVn9TdBN",
+    "provider": "Database",
+    "connection": "Cocktail",
+    "passwordVerify": true,
+    "users": {
+      "table": "users",
+      "identity": "id",
+      "username": "email",
+      "password": "password"
+    },
+    "permissions": {}
+  },
+  "meta": [
+    {
+      "name": "identity",
+      "type": "text"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/partials/loginform.ejs",
+      "linkedForm": "login_reset"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "email_recover",
+        "name": "email"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "checkemail",
+        "module": "mongo_find",
+        "action": "mongo_find",
+        "options": {
+          "database": "jams",
+          "collection": "users",
+          "inboundtype": "JSON",
+          "querytype": "findOne",
+          "query": "{{$_POST}}"
+        },
+        "meta": [
+          {
+            "name": "_id",
+            "type": "string"
+          }
+        ],
+        "output": true
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{checkemail}}",
+          "then": {
+            "steps": [
+              {
+                "name": "newSecpin",
+                "module": "core",
+                "action": "setvalue",
+                "options": {
+                  "key": "newSecpin",
+                  "value": "{{secpin()}}"
+                }
+              },
+              {
+                "name": "updatepin",
+                "module": "mongo_update",
+                "action": "mongo_update",
+                "options": {
+                  "database": "jams",
+                  "collection": "users",
+                  "query": "{{$_POST}}",
+                  "vars": {
+                    "verificationcode": "{{newSecpin}}"
+                  },
+                  "inboundtype": "JSON"
+                },
+                "meta": [
+                  {
+                    "name": "result",
+                    "type": "array"
+                  }
+                ]
+              },
+              {
+                "name": "",
+                "module": "mail",
+                "action": "send",
+                "options": {
+                  "instance": "mail",
+                  "subject": "Password recovery pin",
+                  "fromName": "Admin",
+                  "fromEmail": "admin@mapped.life",
+                  "toEmail": "{{$_POST.email}}",
+                  "body": "Your password recovery pin:\n\n{{newSecpin}}"
+                }
+              },
+              {
+                "name": "pinsent",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "toclient",
+                  "usestatus": 200,
+                  "pass": "simple",
+                  "usename": "message",
+                  "inbound": "Pin sent"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              }
+            ]
+          },
+          "else": {
+            "steps": {
+              "name": "notfound",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 401,
+                "data": "E-mail not found"
+              }
+            }
+          }
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "privs",
+        "module": "core",
+        "action": "exec",
+        "options": {
+          "exec": "secure"
+        }
+      },
+      {
+        "name": "query",
+        "module": "dbconnector",
+        "action": "single",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "SELECT",
+            "columns": [
+              {
+                "table": "cars",
+                "column": "id"
+              },
+              {
+                "table": "cars",
+                "column": "make"
+              },
+              {
+                "table": "cars",
+                "column": "model"
+              },
+              {
+                "table": "cars",
+                "column": "year"
+              }
+            ],
+            "table": {
+              "name": "cars"
+            },
+            "joins": [],
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "cars.id",
+                  "field": "cars.id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_GET.id}}",
+                  "data": {
+                    "table": "cars",
+                    "column": "id",
+                    "type": "number"
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "query": "SELECT id, make, model, year\nFROM cars\nWHERE id = :P1 /* {{$_GET.id}} */",
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_GET.id}}"
+              }
+            ]
+          }
+        },
+        "output": true,
+        "meta": [
+          {
+            "name": "id",
+            "type": "text"
+          },
+          {
+            "name": "make",
+            "type": "text"
+          },
+          {
+            "name": "model",
+            "type": "text"
+          },
+          {
+            "name": "year",
+            "type": "text"
+          }
+        ],
+        "outputType": "object"
+      }
+    ]
+  }
+}

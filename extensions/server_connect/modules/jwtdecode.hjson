@@ -1,0 +1,30 @@
+{
+  type: 'jwt_decode',
+  module : 'jwtdecode',
+  action : 'jwtdecode',
+  groupTitle : 'Mongo DB',
+  groupIcon : 'fas fa-lg fa-database comp-data',
+  title : 'JWT Decode',
+  icon : 'fas fa-lg fa-table comp-data',
+  dataScheme: [
+    {name: 'sub', type: 'text'},
+    {name: 'firstname', type: 'text'},
+    {name: 'email', type: 'text'},
+    {name: 'privs', type: 'text'},
+  ],
+  dataPickObject: true,
+  // globalVars: {
+  //   '$_GET' : ['name']
+  // },
+  properties : [
+    {
+      group: 'JWT Parameters',
+      variables: [
+        { name: 'name', optionName: 'name', title: 'Name', type: 'text', required: true, defaultValue: ''},
+        { name: 'secret', optionName: 'secret', title: 'Secret', type: 'text', required: true, defaultValue: ''},
+        { name: 'token', optionName: 'token', title: 'Token', type: 'text', required: true, defaultValue: '', serverDataBindings: true},
+        { name: 'output', optionName: 'output', title: 'Output', type: 'boolean', defaultValue: false }
+      ]
+    }
+  ]
+}

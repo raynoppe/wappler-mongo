@@ -1,0 +1,252 @@
+{
+  "type": "mysql",
+  "connection": {
+    "host": "localhost",
+    "port": 9906,
+    "user": "db_user",
+    "password": "9PP8OzJN",
+    "database": "mapped"
+  },
+  "direct": true,
+  "schema": {
+    "tables": {
+      "users": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "mapped",
+          "collation": "utf8mb4_unicode_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "username": {
+            "db": {
+              "type": "string",
+              "maxLength": 100,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "firstname": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "lastname": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "email": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "password": {
+            "db": {
+              "type": "string",
+              "maxLength": 255,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "pin": {
+            "db": {
+              "type": "string",
+              "maxLength": 20,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "privs": {
+            "db": {
+              "type": "string",
+              "default": "User",
+              "maxLength": 20,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "verified": {
+            "db": {
+              "type": "string",
+              "default": "No",
+              "maxLength": 10,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "cars": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "mapped",
+          "collation": "utf8_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "make": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "model": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "year": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          }
+        }
+      },
+      "countries": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "mapped",
+          "collation": "utf8_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "country_code": {
+            "db": {
+              "type": "string",
+              "default": "",
+              "maxLength": 2,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "country_name": {
+            "db": {
+              "type": "string",
+              "default": "",
+              "maxLength": 100,
+              "primary": false,
+              "comment": "",
+              "nullable": false
+            }
+          }
+        }
+      },
+      "images": {
+        "db": {
+          "engine": "InnoDB",
+          "schema": "mapped",
+          "collation": "utf8_general_ci",
+          "comment": ""
+        },
+        "columns": {
+          "id": {
+            "db": {
+              "type": "increments",
+              "primary": true,
+              "comment": "",
+              "nullable": false
+            }
+          },
+          "image": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "description": {
+            "db": {
+              "type": "text",
+              "maxLength": 65535,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "category": {
+            "db": {
+              "type": "string",
+              "maxLength": 12,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "author": {
+            "db": {
+              "type": "string",
+              "maxLength": 50,
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          },
+          "date": {
+            "db": {
+              "type": "date",
+              "primary": false,
+              "comment": "",
+              "nullable": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

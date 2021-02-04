@@ -1,0 +1,37 @@
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" bootstrap4="superhero" is="dmx-app" id="main" appconnect="local" components="{dmxBootbox:{}}" -->
+<script is="dmx-flow" id="logincheck" type="text/dmx-flow" autorun>{
+  condition: {
+    if: "{{user.data.jwt}}",
+    then: {
+      steps: {
+        run: {action: "{{browser_home.goto('/home')}}", name: "gohome"}
+      }
+    }
+  }
+}</script>
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" bootstrap4="local" is="dmx-app" id="main. appconnect="local" components="{dmxBootbox:{}}" -->
+<script is="dmx-flow" id="dologin" type="text/dmx-flow"></script>
+<div class="d-flex text-primary useh100 flex-column loginbgimg">
+  <div class="d-flex col align-items-center justify-content-center">
+    <div class="row homebox">
+      <div class="col shadow-lg p-3 mb-5 regbox">
+        <div class="row">
+          <div class="col"><button id="btn_login" class="btn btn-block btn-success" dmx-on:click="browser_home.goto('/login')">Login</button></div>
+        </div>
+        <div class="row pt-3">
+          <div class="col"><button id="btn1" class="btn btn-primary btn-block" dmx-on:click="browser_home.goto('/register')">Register</button></div>
+        </div>
+        <div class="row pt-3">
+          <div class="col"><button id="btn2" class="btn btn-primary btn-block" dmx-on:click="browser_home.goto('/register_confirm')">Register with confirm email</button></div>
+        </div>
+        <div class="row pt-3">
+          <div class="col"><button id="btn3" class="btn btn-primary btn-block" dmx-on:click="browser_home.goto('/register_activate')">Register needs approval</button></div>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>
+<meta name="ac:route" content="/">

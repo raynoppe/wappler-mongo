@@ -1,0 +1,121 @@
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" bootstrap4="superhero" is="dmx-app" id="main" appconnect="local" components="{dmxBootbox:{},dmxBootstrap4Toasts:{}}" -->
+<div is="dmx-bs4-toasts" id="toastsreg"></div>
+
+<dmx-value id="loginflow" dmx-bind:value="'emailcheck'"></dmx-value>
+
+<script is="dmx-flow" id="logincheck" type="text/dmx-flow" autorun>{
+  condition: {
+    if: "{{user.data.jwt}}",
+    then: {
+      steps: {
+        run: {action: "{{browser_home.goto('/home')}}", name: "gohome"}
+      }
+    }
+  }
+}</script>
+<!-- Wappler include head-page="layouts/main" jquery_slim_33="cdn" fontawesome_4="cdn" bootstrap4="local" is="dmx-app" id="main. appconnect="local" components="{dmxBootbox:{}}" -->
+<script is="dmx-flow" id="dologin" type="text/dmx-flow"></script>
+<dmx-value id="wrongpass" dmx-bind:value="false"></dmx-value>
+<div class="d-flex useh100 loginbgimg align-items-center justify-content-center flex-column">
+    <section>
+        <div class="container homebox">
+            <div class="row justify-content-center p-3">
+                <div class="col regbox p-3">
+                    <div class="row" id="row_title">
+                        <div class="col text-center">
+                            <h2 class="mb-3 text-center mt-3">Login</h2>
+                        </div>
+                    </div>
+                    <div class="row" id="row_check_email" dmx-show="loginflow.value == 'emailcheck'">
+                        <div class="col">
+                            <form id="form_check_email" is="dmx-api-form" method="post" action="api/Security/checkemail" site="NodeSPA" post-data="json" dmx-on:success="emailexists.setValue(true);form_do_login.email1.setValue(email.value)"
+                                dmx-on:start="preloader1.show()" dmx-on:done="preloader1.hide()">
+                                <div class="form-group">
+                                    <label for="email">E-mail</label>
+                                    <input type="text" class="form-control" id="email" name="email" aria-describedby="input1_help" placeholder="you@yourmail.com">
+                                    <small id="input1_help" class="form-text">The e-mail you used to register with</small>
+                                </div>
+                                <button id="btn_proceed" class="btn btn-block btn-success" type="submit" dmx-on:click="loginflow.setValue('emailpassword')">Proceed</button>
+                                <button id="btn_register" class="btn btn-block btn-primary" dmx-on:click="browser_home.goto('/register')">Register</button>
+                                <button id="btn_forgot" class="btn btn-block btn-secondary" dmx-on:click="loginflow.setValue('sendpin');form_check_email1.emailforpin.setValue(email.value)">Forgot details?</button>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row" id="row_dologin" dmx-show="loginflow.value == 'emailpassword'">
+                        <div class="col">
+                            <form id="form_do_login" is="dmx-api-form" method="post" post-data="json" action="api/Security/login" site="NodeSPA"
+                                dmx-on:success="user.set('email',data.email);user.set('firstname',data.firstname);user.set('jwt',data.jwt);user.set('role',data.role);browser_home.goto('/home')" dmx-on:start="preloader1.show()"
+                                dmx-on:done="preloader1.hide()" dmx-on:unauthorized="toastsreg.show({message: 'Your account is not active. Please contact support.', title: 'Authorisation Error'})"
+                                dmx-on:error="toastsreg.show({message: 'Your password is not correct', title: 'Error'});wrongpass.setValue(true)">
+                                <div class="form-group">
+                                    <label for="email1">E-mail</label>
+                                    <input type="text" class="form-control" id="email1" name="email" aria-describedby="input1_help" placeholder="you@yourmail.com">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="password1">Password</label>
+                                    <input type="text" class="form-control" id="password1" name="password" aria-describedby="input1_help" placeholder="Password" dmx-on:keydown="wrongpass.setValue(false)">
+                                </div>
+                                <div class="row" dmx-show="wrongpass.value">
+                                    <div class="col">
+                                        <p class="style1">Your password seems to be incorrect.</p>
+                                    </div>
+                                </div>
+
+                                <button id="btn_login1" class="btn btn-block btn-success" type="submit" dmx-on:click="wrongpass.setValue(false)">Login</button><button id="btn_forgot_password" class="btn btn-block btn-secondary"
+                                    dmx-on:click="loginflow.setValue('sendpin');form_check_email1.emailforpin.setValue(email.value)">Forgot
+                                    details?</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row" id="row_send_pin" dmx-show="loginflow.value == 'sendpin'">
+                        <div class="col">
+                            <h3>Reset your password</h3>
+                            <p>Please enter your registered email address. You will be sent a recovery pin.</p>
+                            <form id="form_check_email1" is="dmx-api-form" method="post" action="api/Security/sendpin" site="NodeSPA" post-data="json"
+                                dmx-on:success="toastsreg.show({message: data.message, title: 'Alert'});form_reset_password.reset_email.setValue(emailforpin.value);loginflow.setValue('changepassword')" dmx-on:start="preloader1.show()"
+                                dmx-on:done="preloader1.hide()" dmx-on:unauthorized="toasts1.show({message: 'E-mail not found', title: 'Error'})">
+                                <div class="form-group">
+                                    <label for="emailforpin">E-mail</label>
+                                    <input type="text" class="form-control" id="emailforpin" name="email" aria-describedby="input1_help" placeholder="you@yourmail.com">
+                                    <small id="input1_help1" class="form-text">The e-mail you used to register with</small>
+                                </div>
+                                <button id="btn_proceed1" class="btn btn-block btn-primary" type="submit">Send recovery pin</button>
+                                <button id="btn_i_havepin" class="btn btn-block btn-warning" dmx-on:click="loginflow.setValue('changepassword');form_reset_password.email_send_pin.setValue(emailforpin.value)">I have a recovery pin</button>
+                                <button id="btn_send_pin_cancel" class="btn btn-secondary btn-block" dmx-on:click="loginflow.setValue('emailcheck')">Cancel</button>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row" id="row_reset_pass" dmx-show="loginflow.value == 'changepassword'">
+                        <div class="col">
+                            <h3>Reset password</h3>
+                            <form id="form_reset_password" is="dmx-api-form" method="post" post-data="json" action="api/Security/passwordchangepin" site="NodeSPA" dmx-on:start="preloader1.show()" dmx-on:done="preloader1.hide()"
+                                dmx-on:unauthorized="toastsreg.show({message: 'Please check your pin and email sent', title: 'Error'})"
+                                dmx-on:success="toastsreg.show({message: 'Your password have been reset and you are logged in.', title: 'Success'});user.set('email',data.email);user.set('firstname',data.firstname);user.set('jwt',data.jwt);user.set('role',data.role);browser_home.goto('/home')">
+                                <div class="form-group">
+                                    <label for="reset_email">E-mail</label>
+                                    <input type="text" class="form-control" id="reset_email" name="email" aria-describedby="input1_help" placeholder="you@yourmail.com">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reset_pin">Reset pin</label>
+                                    <input type="text" class="form-control" id="reset_pin" name="pin" aria-describedby="input1_help" placeholder="1234">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="reset_password">New password</label>
+                                    <input type="password" class="form-control" id="reset_password" name="password" aria-describedby="input1_help" placeholder="Password" dmx-on:keydown="wrongpass.setValue(false)">
+                                </div>
+
+                                <button id="btn_login2" class="btn btn-block btn-success" type="submit" dmx-on:click="wrongpass.setValue(false)">Change password</button><button id="btn_forgot_password1" class="btn btn-block btn-secondary"
+                                    dmx-on:click="loginflow.setValue('emailcheck')">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<meta name="ac:route" content="/login">

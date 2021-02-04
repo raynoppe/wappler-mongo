@@ -1,0 +1,44 @@
+{
+  type: 'mongo_querybuilder',
+  module : 'mongo_querybuilder',
+  action : 'mongo_querybuilder',
+  groupTitle : 'Mongo DB',
+  groupIcon : 'fas fa-lg fa-database comp-data',
+  title : 'Mongo Query Builder',
+  icon : 'fas fa-lg fa-table comp-data',
+  dataScheme: [
+    { name: 'result', type: 'object' },
+  ],
+  dataPickObject: true,
+  // globalVars: {
+  //   '$_GET' : ['name']
+  // },
+  properties : [
+    {
+      group: 'Connection Settings',
+      variables: [
+        { name: 'name', optionName: 'name', title: 'Name', type: 'text', required: true, defaultValue: ''},
+        { name: 'qtype', optionName: 'qtype', title: 'Query Type', 
+          type: 'droplist', 
+          values: [
+            {title: 'Select', value: ''},
+            {title: 'AND', value: 'and'},
+            {title: 'OR', value: 'or'},
+            {title: 'NOR', value: 'nor'},
+            {title: 'NOT', value: 'not'}
+          ], defaultValue: '', serverDataBindings: true, required: true
+        },
+        { name: 'vars', optionName: 'vars', key: 'name', keyValue: 'value',
+          title: 'Vars', type: 'grid', defaultValue: {}, serverDataBindings: true,
+          columns: [
+            { field: 'name', caption: 'Name', size: '30%', editable: {type: 'text'} },
+            { field: 'value', caption: 'Value', size: '40%', allowJson: true, editable: {type: 'datapicker'} },
+          ],
+          newRecord: { name: '', value: ''}
+		 		},
+
+        { name: 'output', optionName: 'output', title: 'Output', type: 'boolean', defaultValue: false }
+      ]
+    }
+  ]
+}

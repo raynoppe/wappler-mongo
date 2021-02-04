@@ -1,0 +1,28 @@
+{
+  type: 'General',
+  module : 'mongoformatters',
+  action : 'like',
+  groupTitle : 'Custom Actions',
+  groupIcon : 'fas fa-lg fa-database comp-data',
+  title : 'Hello World',
+  icon : 'fas fa-lg fa-table comp-data',
+  dataScheme: [
+    {name: 'name', type: 'text'},
+    {name: 'age', type: 'number'}
+  ],
+  dataPickObject: true,
+  globalVars: {
+    '$_GET' : ['name']
+  },
+  properties : [
+    {
+      group: 'Hello Properties',
+      variables: [
+        { name: 'actionName', optionName: 'name', title: 'Name', 
+          type: 'text', required: true, defaultValue: ''},
+        { name: 'actionData', optionName: 'data', title: 'Data',
+          type: 'text', defaultValue: ''}
+      ]
+    }
+  ]
+}

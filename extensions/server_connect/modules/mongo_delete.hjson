@@ -1,0 +1,27 @@
+{
+  type: 'mongo_connect',
+  module : 'mongo_connect',
+  action : 'mongo_connect',
+  groupTitle : 'Mongo DB',
+  groupIcon : 'fas fa-lg fa-database comp-data',
+  title : 'Mongo Delete',
+  icon : 'fas fa-lg fa-table comp-data',
+  dataScheme: [
+    {name: 'results', type: 'object'},
+  ],
+  dataPickObject: true,
+  // globalVars: {
+  //   '$_GET' : ['name']
+  // },
+  properties : [
+    {
+      group: 'Connection Settings',
+      variables: [
+        { name: 'name', optionName: 'name', title: 'Name', type: 'text', required: true, defaultValue: ''},
+        { name: 'database', optionName: 'database', title: 'Database', type: 'text', required: true, defaultValue: ''},
+        { name: 'conurl', optionName: 'conurl', title: 'Connection url', type: 'text', defaultValue: '', help: 'By default the server will connect to your local mongo instance mongodb://127.0.0.1:27017/. If you are using Mongo Atlas enter your mongodb+srv url'},
+        { name: 'output', optionName: 'output', title: 'Output', type: 'boolean', defaultValue: false }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+<!doctype html>
+<html>
+
+<head>
+  <script src="/dmxAppConnect/dmxAppConnect.js"></script>
+  <base href="/">
+  <meta charset="UTF-8">
+  <title>Cocktail</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/custom.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxRouting/dmxRouting.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootstrap4Navigation/dmxBootstrap4Navigation.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxStateManagement/dmxStateManagement.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBrowser/dmxBrowser.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootstrap4Modal/dmxBootstrap4Modal.js" defer=""></script>
+  <link rel="stylesheet" href="/dmxAppConnect/dmxValidator/dmxValidator.css" />
+  <script src="/dmxAppConnect/dmxValidator/dmxValidator.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootbox/bootbox.all.min.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootbox/dmxBootbox.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootstrap4Toasts/dmxBootstrap4Toasts.js" defer=""></script>
+  <link rel="stylesheet" href="/dmxAppConnect/dmxPreloader/dmxPreloader.css" />
+  <script src="/dmxAppConnect/dmxPreloader/dmxPreloader.js" defer=""></script>
+  <link rel="stylesheet" href="/bootstrap/4/superhero/bootstrap.min.css" />
+  <link rel="stylesheet" href="/dmxAppConnect/dmxBootstrap4TableGenerator/dmxBootstrap4TableGenerator.css" />
+  <script src="/dmxAppConnect/dmxFormatter/dmxFormatter.js" defer=""></script>
+</head>
+
+<body id="app" is="dmx-app">
+  <dmx-value id="apiurl" dmx-bind:value="'http://localhost:3000'"></dmx-value>
+  <div is="dmx-bs4-toasts" id="toasts1"></div>
+  <dmx-preloader id="preloader1" spinner="circle" color="#FFFFFF" bgcolor="#2b3e50"></dmx-preloader>
+  <div is="dmx-bs4-toasts" id="apptoasts"></div>
+
+  <div is="dmx-browser" id="appbrowser"></div>
+  <dmx-local-manager id="user"></dmx-local-manager>
+
+  <script is="dmx-flow" id="accesscheck" type="text/dmx-flow" autorun>{
+  condition: {
+    if: "{{user.data.jwt}}",
+    else: {
+      steps: {
+        run: {action: "{{modalform.show()}}"}
+      }
+    }
+  }
+}</script>
+  <div class="container-fluid">
+    <div class="modal" id="modal-form" is="dmx-bs4-modal" tabindex="-1" role="dialog" nocloseonclick="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Login</h5>
+            <button type="button" class="close" data-dismiss="moda-text" aria-label="Close">
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="form_login" method="post" is="dmx-api-form" action="/api/Security/login" post-data="json"
+              dmx-on:success="user.set('email',data.email);user.set('firstname',data.firstname);user.set('jwt',data.jwt);user.set('privs',data.privs);modalform.hide()" dmx-on:start="preloader1.show()" dmx-on:done="preloader1.hide()"
+              dmx-on:error="toasts1.show({message: 'Please check your password and try again', title: 'Error'})">
+              <div class="form-group">
+                <label for="email">E-mail</label>
+                <input type="text" class="form-control" id="email" name="email" aria-describedby="input1_help" placeholder="eg. you@mail.com" required="" data-msg-required="Please enter a valid email address" data-rule-email="">
+                <small id="input1_help" class="form-text text-muted">This will be the email you registered with.</small>
+              </div>
+              <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" aria-describedby="input1_help" placeholder="Enter some text" required="" data-msg-required="Please enter your password">
+              </div>
+              <button id="btn_login" class="btn btn-primary btn-block" type="submit">Login</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand mr-auto" href="#">Coctail</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar1_collapse" aria-controls="navbar1_collapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar1_collapse">
+        <div class="navbar-nav mr-auto">
+          <a class="nav-item nav-link active" href="/home">Home</a>
+          <a class="nav-item nav-link" href="/users">Users</a>
+        </div>
+        <div class="navbar-nav">
+          <a class="nav-item nav-link " href="#" dmx-on:click="user.removeAll();appbrowser.goto('/')">Logout</a>
+        </div>
+      </div>
+    </nav>
+    <div class="row">
+      <div class="col d-flex">
+        <div class="row">
+          <div class="col">
+            <ul class="list-group">
+              <li class="list-group-item">Home</li>
+              <li class="list-group-item">Page 2</li>
+            </ul>
+          </div>
+        </div>
+        <div class="row flex-grow-1">
+          <div class="col">
+            <div is="dmx-view" id="content">
+              <%- await include(content, locals); %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/bootstrap/4/js/popper.min.js"></script>
+  <script src="/bootstrap/4/js/bootstrap.min.js"></script>
+</body>
+
+</html>
