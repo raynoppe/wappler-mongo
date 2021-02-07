@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "_id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      "lib/mongodb",
+      {
+        "name": "exec",
+        "module": "core",
+        "action": "exec",
+        "options": {
+          "exec": "secure"
+        },
+        "output": false
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "trycatch",
+        "options": {
+          "try": {
+            "steps": [
+              {
+                "name": "singleq",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "internal",
+                  "pass": "simple",
+                  "usename": "_id",
+                  "inbound": "{{$_GET._id}}"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              },
+              {
+                "name": "getsingle",
+                "module": "mongo_find",
+                "action": "mongo_find",
+                "options": {
+                  "database": "{{mdb}}",
+                  "collection": "teams",
+                  "conurl": "{{conurl}}",
+                  "inboundtype": "JSON",
+                  "querytype": "findOne",
+                  "query": "{{singleq}}"
+                },
+                "meta": [
+                  {
+                    "name": "_id",
+                    "type": "string"
+                  }
+                ]
+              },
+              {
+                "name": "retsingle",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "toclient",
+                  "usestatus": 200,
+                  "pass": "simple",
+                  "inbound": "{{getsingle}}",
+                  "usename": "result"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              }
+            ]
+          },
+          "catch": {
+            "steps": {
+              "name": "singlerr",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 500,
+                "data": "Error getting record"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

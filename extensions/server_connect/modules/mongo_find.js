@@ -61,7 +61,7 @@ exports.mongo_find = async function (options, name) {
             result = await dCollection.find(q, opts).toArray();
         }
         if (qtype == 'findOne') {
-            result = await dCollection.findOne(q);
+            result = await dCollection.findOne(q, opts);
         }
         if (qtype == 'count') {
             result = await dCollection.find(q, opts).count();

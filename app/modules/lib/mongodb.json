@@ -1,13 +1,21 @@
-{
-  "name": "mdb",
-  "module": "mongo_connect",
-  "action": "mongo_connect",
-  "options": {},
-  "meta": [
-    {
-      "name": "dbconnection",
-      "type": "object"
+[
+  {
+    "name": "mdb",
+    "module": "core",
+    "action": "setvalue",
+    "options": {
+      "key": "mdb",
+      "value": "wapdeme"
+    },
+    "output": false
+  },
+  {
+    "name": "conurl",
+    "module": "core",
+    "action": "setvalue",
+    "options": {
+      "key": "conurl",
+      "value": "mongodb+srv://wapdeme:u6PkQyGSQ7TGwSGT@cluster0.rlvhj.mongodb.net/"
     }
-  ],
-  "output": true
-}
+  }
+]

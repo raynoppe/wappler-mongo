@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "teamname"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      "lib/mongodb",
+      {
+        "name": "exec",
+        "module": "core",
+        "action": "exec",
+        "options": {
+          "exec": "secure"
+        }
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "trycatch",
+        "options": {
+          "try": {
+            "steps": [
+              {
+                "name": "scrudinsert",
+                "module": "mongo_insert",
+                "action": "mongo_insert",
+                "options": {
+                  "database": "{{mdb}}",
+                  "collection": "teams",
+                  "conurl": "{{conurl}}",
+                  "vars": {
+                    "teamname": "{{$_POST.teamname}}",
+                    "teammembers": "{{[]}}",
+                    "createdAt": "{{NOW}}",
+                    "updatedAt": "{{NOW}}",
+                    "createdBy": "{{exec.userdetails._id}}",
+                    "createdByName": "{{exec.userdetails.firstname}}"
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "insertid",
+                    "type": "text"
+                  }
+                ]
+              },
+              {
+                "name": "newrecord",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "toclient",
+                  "usestatus": 200,
+                  "pass": "in",
+                  "inbound": "{{scrudinsert}}"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              }
+            ]
+          },
+          "catch": {
+            "steps": {
+              "name": "inserterror",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 500,
+                "data": "Insert error"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

@@ -4,6 +4,6 @@
   "action": "setup",
   "options": {
     "host": "smtp.mailgun.org",
-    "username": "postmaster@mapped.life"
+    "username": "postmaster@youremail.com"
   }
 }

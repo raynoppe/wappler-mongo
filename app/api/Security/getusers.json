@@ -1,4 +1,5 @@
 [
+  "lib/mongodb",
   {
     "name": "exec",
     "module": "core",
@@ -21,11 +22,12 @@
             "module": "mongo_find",
             "action": "mongo_find",
             "options": {
-              "database": "jams",
+              "database": "{{mdb}}",
               "collection": "users",
               "projection": "{ \"password\": 0 }",
               "querytype": "find",
-              "inboundtype": "JSON"
+              "inboundtype": "JSON",
+              "conurl": "{{conurl}}"
             },
             "meta": [
               {

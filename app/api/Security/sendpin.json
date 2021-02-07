@@ -14,16 +14,18 @@
   },
   "exec": {
     "steps": [
+      "lib/mongodb",
       {
         "name": "checkemail",
         "module": "mongo_find",
         "action": "mongo_find",
         "options": {
-          "database": "jams",
+          "database": "{{mdb}}",
           "collection": "users",
           "inboundtype": "JSON",
           "querytype": "findOne",
-          "query": "{{$_POST}}"
+          "query": "{{$_POST}}",
+          "conurl": "{{conurl}}"
         },
         "meta": [
           {
@@ -55,13 +57,14 @@
                 "module": "mongo_update",
                 "action": "mongo_update",
                 "options": {
-                  "database": "jams",
+                  "database": "{{mdb}}",
                   "collection": "users",
                   "query": "{{$_POST}}",
                   "vars": {
                     "verificationcode": "{{newSecpin}}"
                   },
-                  "inboundtype": "JSON"
+                  "inboundtype": "JSON",
+                  "conurl": "{{conurl}}"
                 },
                 "meta": [
                   {

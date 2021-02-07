@@ -25,7 +25,8 @@
             {title: 'AND', value: 'and'},
             {title: 'OR', value: 'or'},
             {title: 'NOR', value: 'nor'},
-            {title: 'NOT', value: 'not'}
+            {title: 'NOT', value: 'not'},
+            {title: 'EMPTY', value: 'empty'},
           ], defaultValue: '', serverDataBindings: true, required: true
         },
         { name: 'vars', optionName: 'vars', key: 'name', keyValue: 'value',

@@ -23,6 +23,7 @@
   },
   "exec": {
     "steps": [
+      "lib/mongodb",
       {
         "name": "buildlogin",
         "module": "mongo_querybuilder",
@@ -49,8 +50,9 @@
           "collection": "users",
           "inboundtype": "JSON",
           "querytype": "findOne",
-          "database": "jams",
-          "query": "{{buildlogin}}"
+          "database": "{{mdb}}",
+          "query": "{{buildlogin}}",
+          "conurl": "{{conurl}}"
         },
         "meta": [
           {

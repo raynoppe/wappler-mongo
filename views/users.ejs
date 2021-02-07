@@ -1,7 +1,22 @@
-<!-- Wappler include head-page="layouts/app" jquery_slim_33="cdn" fontawesome_4="cdn" bootstrap4="local" is="dmx-app" id="app" appconnect="local" components="{dmxBootstrap4TableGenerator:{},dmxBootstrap4Modal:{},dmxFormatter:{}}" -->
+<!-- Wappler include head-page="layouts/app" jquery_slim_33="cdn" fontawesome_4="cdn" bootstrap4="local" is="dmx-app" id="app" appconnect="local" components="{dmxBootstrap4TableGenerator:{},dmxBootstrap4Modal:{},dmxFormatter:{},dmxBootbox:{},dmxDatastore:{}}" -->
+<dmx-value id="delid" dmx-bind:value="'none'"></dmx-value>
+<dmx-api-action id="api_user_delete" noload="true" url="/api/Security/userdelete" data-type="json" dmx-param:token="user.data.jwt" dmx-param:deleteid="'none'"></dmx-api-action>
 <dmx-value id="formstate" dmx-bind:value="'edit'"></dmx-value>
 <!-- Wappler include head-page="layouts/app" jquery_slim_33="cdn" fontawesome_4="cdn" bootstrap4="local" is="dmx-app" id="app. appconnect="local" components="{dmxBootstrap4TableGenerator:{},dmxBootstrap4Modal:{}}" -->
 
+<div class="modal" id="modal-warning" is="dmx-bs4-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p class="text-center text-warning"><i class="fas fa-exclamation-circle fa-6x"></i></p>
+                <h4 class="text-center font-weight-light">Are you sure you want to delete this user?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" data-toggle="modal" data-target="#modal-warning">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="modal" id="modal_edit_user" is="dmx-bs4-modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

@@ -33,6 +33,7 @@
   },
   "exec": {
     "steps": [
+      "lib/mongodb",
       {
         "name": "exec",
         "module": "core",
@@ -72,7 +73,7 @@
                 "module": "mongo_update",
                 "action": "mongo_update",
                 "options": {
-                  "database": "jams",
+                  "database": "{{mdb}}",
                   "collection": "users",
                   "inboundtype": "JSON",
                   "query": "{{query}}",
@@ -83,7 +84,8 @@
                     "mobile": "{{$_POST.mobile}}",
                     "role": "{{$_POST.role}}",
                     "userstate": "{{$_POST.userstate}}"
-                  }
+                  },
+                  "conurl": "{{conurl}}"
                 },
                 "meta": [
                   {

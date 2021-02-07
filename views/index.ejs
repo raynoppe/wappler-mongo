@@ -16,16 +16,20 @@
     <div class="row homebox">
       <div class="col shadow-lg p-3 mb-5 regbox">
         <div class="row">
-          <div class="col"><button id="btn_login" class="btn btn-block btn-success" dmx-on:click="browser_home.goto('/login')">Login</button></div>
+          <div class="col">
+            <a href="/login" class="btn btn-block btn-success" internal id="btn_login">Login</a></div>
         </div>
         <div class="row pt-3">
-          <div class="col"><button id="btn1" class="btn btn-primary btn-block" dmx-on:click="browser_home.goto('/register')">Register</button></div>
+          <div class="col">
+            <a href="/register" class="btn btn-primary btn-block" internal id="btn_reg">Register</a></div>
         </div>
         <div class="row pt-3">
-          <div class="col"><button id="btn2" class="btn btn-primary btn-block" dmx-on:click="browser_home.goto('/register_confirm')">Register with confirm email</button></div>
+          <div class="col">
+            <a href="/register_confirm" class="btn btn-primary btn-block" internal id="btn_reg_confrim">Register and confirm email</a></div>
         </div>
         <div class="row pt-3">
-          <div class="col"><button id="btn3" class="btn btn-primary btn-block" dmx-on:click="browser_home.goto('/register_activate')">Register needs approval</button></div>
+          <div class="col">
+            <a href="/register_activate" class="btn btn-primary btn-block" internal>Register needs approval</a></div>
         </div>
 
 

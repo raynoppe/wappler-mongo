@@ -8,9 +8,27 @@ exports.secpin = function () {
     return newcode;
 };
 
-exports.like = function (str) {
+exports.mongo_contains = function (str) {
     // var retcode = "{ $regex: .*" + str + ".*, $options: 'i' }";
     var qstr2 = `.*${str}.*`;
+    var retcode = { $regex: qstr2, $options: 'i' };
+    return retcode;
+};
+exports.mongo_notcontains = function (str) {
+    // var retcode = "{ $regex: .*" + str + ".*, $options: 'i' }";
+    var qstr2 = `^((?!${str}).)*$`;
+    var retcode = { $regex: qstr2, $options: 'i' };
+    return retcode;
+};
+exports.mongo_startswith = function (str) {
+    // var retcode = "{ $regex: .*" + str + ".*, $options: 'i' }";
+    var qstr2 = `^${str}`;
+    var retcode = { $regex: qstr2, $options: 'i' };
+    return retcode;
+};
+exports.mongo_endswith = function (str) {
+    // var retcode = "{ $regex: .*" + str + ".*, $options: 'i' }";
+    var qstr2 = `${str}$`;
     var retcode = { $regex: qstr2, $options: 'i' };
     return retcode;
 };

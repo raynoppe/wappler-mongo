@@ -71,6 +71,16 @@
       "path": "/users",
       "page": "users",
       "layout": "app"
+    },
+    {
+      "path": "/teams",
+      "page": "teams",
+      "layout": "app"
+    },
+    {
+      "path": "/teamedit/:teamid",
+      "page": "teamedit",
+      "layout": "app"
     }
   ]
 }

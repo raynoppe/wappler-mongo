@@ -1,0 +1,117 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "teamname"
+      },
+      {
+        "type": "text",
+        "name": "token"
+      }
+    ],
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "teamname"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      "lib/mongodb",
+      {
+        "name": "exec",
+        "module": "core",
+        "action": "exec",
+        "options": {
+          "exec": "secure"
+        },
+        "output": false
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "condition",
+        "options": {
+          "if": "{{$_GET.teamname}}",
+          "then": {
+            "steps": {
+              "name": "findteam",
+              "module": "mongo_querybuilder",
+              "action": "mongo_querybuilder",
+              "options": {
+                "qtype": "and",
+                "vars": {
+                  "teamname": "{{$_GET.teamname.mongo_startswith()}}"
+                }
+              },
+              "meta": [
+                {
+                  "name": "result",
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "else": {
+            "steps": {
+              "name": "findteam",
+              "module": "mongo_querybuilder",
+              "action": "mongo_querybuilder",
+              "options": {
+                "qtype": "empty"
+              },
+              "meta": [
+                {
+                  "name": "result",
+                  "type": "object"
+                }
+              ]
+            }
+          }
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "getteams",
+        "module": "mongo_find",
+        "action": "mongo_find",
+        "options": {
+          "database": "{{mdb}}",
+          "collection": "teams",
+          "conurl": "{{conurl}}",
+          "inboundtype": "JSON",
+          "query": "{{findteam}}",
+          "querytype": "find"
+        },
+        "meta": [
+          {
+            "name": "_id",
+            "type": "string"
+          }
+        ],
+        "output": true
+      },
+      {
+        "name": "returnteams",
+        "module": "return_json",
+        "action": "return_json",
+        "options": {
+          "usemethod": "toclient",
+          "usestatus": 200,
+          "pass": "simple",
+          "usename": "results",
+          "inbound": "{{getteams}}"
+        },
+        "meta": [
+          {
+            "name": "json",
+            "type": "object"
+          }
+        ],
+        "disabled": true
+      }
+    ]
+  }
+}

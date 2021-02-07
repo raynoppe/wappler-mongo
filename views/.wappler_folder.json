@@ -50,5 +50,13 @@
   "users.ejs": {
     "layoutPage": "app",
     "description": ""
+  },
+  "teams.ejs": {
+    "layoutPage": "app",
+    "description": ""
+  },
+  "teamedit.ejs": {
+    "layoutPage": "app",
+    "description": ""
   }
 }

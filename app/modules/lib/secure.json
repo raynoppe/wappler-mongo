@@ -18,6 +18,7 @@
   },
   "exec": {
     "steps": [
+      "lib/mongodb",
       {
         "name": "usetoken",
         "module": "core",
@@ -162,12 +163,13 @@
         "module": "mongo_find",
         "action": "mongo_find",
         "options": {
-          "database": "jams",
+          "database": "{{mdb}}",
           "collection": "users",
           "inboundtype": "JSON",
           "querytype": "findOne",
           "query": "{{returnid}}",
-          "projection": "{ \"password\": 0 }"
+          "projection": "{ \"password\": 0 }",
+          "conurl": "{{conurl}}"
         },
         "meta": [
           {

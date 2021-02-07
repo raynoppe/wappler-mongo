@@ -1,0 +1,129 @@
+<!-- Wappler include head-page="layouts/app" is="dmx-app" id="app" appconnect="local" jquery_slim_35="local" fontawesome_5="local" bootstrap4="superhero" components="{dmxBootstrap4TableGenerator:{},dmxNotifications:{},dmxBootstrap4Tooltips:{},dmxBootstrap4Modal:{}}" -->
+<div class="modal" id="modal_delete_row" is="dmx-bs4-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this team</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" dmx-on:click="dodelete.load({_id: del_id.value})" data-toggle="modal" data-target="#modal_delete_row">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="modal_add" is="dmx-bs4-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add team</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form_newteam" method="post" action="/api/scrud/create" is="dmx-api-form" dmx-param:token="user.data.jwt" dmx-on:success="form_filter.filter.setValue(input_newteam.value);getteams.load()" dmx-on:start="preloader1.show()"
+                    dmx-on:done="preloader1.hide()">
+                    <div class="form-group">
+                        <label for="input_newteam">Team&nbsp; Name</label>
+                        <input type="text" class="form-control" id="input_newteam" name="teamname" aria-describedby="input1_help" placeholder="Enter some text">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button class="btn btn-primary" dmx-on:click="modal_add.form_newteam.submit()" data-toggle="modal" data-target="#modal_add">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<dmx-value id="del_id"></dmx-value>
+<dmx-value id="del_key" dmx-bind:value="-1"></dmx-value>
+<dmx-notifications id="notifies1">
+    <dmx-value id="showEdit" dmx-bind:value="0"></dmx-value>
+</dmx-notifications>
+<!-- Wappler include head-page="layouts/app" is="dmx-app" id="app. appconnect="local" jquery_slim_35="local" fontawesome_5="local" bootstrap4="superhero" components="{dmxBootstrap4TableGenerator:{}}" -->
+<dmx-api-datasource id="getteams" is="dmx-fetch" url="http://localhost:3000/api/scrud/list"
+    dmx-param:token="'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2MDFjMzg4OTc4ODVmMDNjNDkyZTllMzEiLCJmaXJzdG5hbWUiOiJSYXkiLCJlbWFpbCI6InJheS5ub3BwZUBnbWFpbC5jb20iLCJyb2xlIjoiQWRtaW4ifQ.3vPta7fN5mtrMT6IiYpivtnNKO_cxlvQMcD4bFve_oo'"
+    dmx-param:teamname="form_filter.filter.value">
+</dmx-api-datasource>
+<dmx-api-datasource id="getteam" is="dmx-fetch" url="http://localhost:3000/api/scrud/single" dmx-param:token="user.data.jwt" dmx-param:_id="" noload></dmx-api-datasource>
+<dmx-api-action id="dodelete" noload="true" url="/api/scrud/delete" dmx-param:token="user.data.jwt" dmx-param:_id="" dmx-on:success="getteams.load({})"></dmx-api-action>
+<div class="container" id="title">
+    <div class="row">
+        <div class="col">
+            <h1>Teams</h1>
+        </div>
+    </div>
+</div>
+<div class="container" id="search">
+    <div class="row">
+        <div class="col">
+            <form id="form_filter">
+                <div class="form-group row">
+                    <div class="col">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Filter</span>
+                            </div>
+                            <input type="text" class="form-control" id="filter" name="filter" aria-describedby="input1_help" placeholder="Start typing to filter">
+                            <div class="input-group-append">
+                                <button class="btn btn-warning" type="button" dmx-on:click="form_filter.filter.setValue(null)">Clear</button>
+                                <button class="btn btn-info" type="button">Refresh</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="list">
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped table-bordered table-hover table-sm">
+                <thead>
+                    <tr>
+                        <th>
+                            <button id="btn3" class="btn btn-info btn-sm" data-toggle="modal" data-target="#modal_add"><i class="fa fa-plus"></i></button>
+                        </th>
+                        <th>Teamname</th>
+                        <th>Updated at</th>
+                        <th>Created by name</th>
+                        <th>Members</th>
+                    </tr>
+                </thead>
+                <tbody is="dmx-repeat" dmx-generator="bs4table" dmx-bind:repeat="getteams.data.results" id="tableRepeat2">
+                    <tr>
+                        <td>
+                            <a dmx-bind:href="/teamedit/{{_id}}" class="btn btn-info btn-sm" internal=""><i class="fa fa-edit"></i></a>
+                            <button id="btn2" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal_delete_row" dmx-on:click="del_id.setValue(_id);del_key.setValue($key)"><i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                        <td dmx-text="teamname"></td>
+                        <td dmx-text="updatedAt"></td>
+                        <td dmx-text="createdByName"></td>
+                        <td dmx-text="teammembers.length"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col">
+        </div>
+    </div>
+</div>
+<meta name="ac:route" content="/teams">
+<!-- New Wappler Page -->

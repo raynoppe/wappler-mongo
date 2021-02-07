@@ -26,6 +26,11 @@
   <link rel="stylesheet" href="/bootstrap/4/superhero/bootstrap.min.css" />
   <link rel="stylesheet" href="/dmxAppConnect/dmxBootstrap4TableGenerator/dmxBootstrap4TableGenerator.css" />
   <script src="/dmxAppConnect/dmxFormatter/dmxFormatter.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxDatastore/dmxDatastore.js" defer=""></script>
+  <link rel="stylesheet" href="/dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+  <script src="/dmxAppConnect/dmxNotifications/dmxNotifications.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootstrap4Tooltips/dmxBootstrap4Tooltips.js" defer=""></script>
+  <script src="/dmxAppConnect/dmxBootstrap4Alert/dmxBootstrap4Alert.js" defer=""></script>
 </head>
 
 <body id="app" is="dmx-app">
@@ -82,8 +87,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbar1_collapse">
         <div class="navbar-nav mr-auto">
-          <a class="nav-item nav-link active" href="/home">Home</a>
-          <a class="nav-item nav-link" href="/users">Users</a>
+          <a class="nav-item nav-link active" href="/home" internal>Home</a>
+          <a class="nav-item nav-link" href="/users" internal>Users</a>
+          <a class="nav-item nav-link" href="/teams" internal="">Teams</a>
         </div>
         <div class="navbar-nav">
           <a class="nav-item nav-link " href="#" dmx-on:click="user.removeAll();appbrowser.goto('/')">Logout</a>
@@ -96,7 +102,7 @@
           <div class="col">
             <ul class="list-group">
               <li class="list-group-item">Home</li>
-              <li class="list-group-item">Page 2</li>
+              <li class="list-group-item">Teams</li>
             </ul>
           </div>
         </div>

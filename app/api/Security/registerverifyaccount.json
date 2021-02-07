@@ -43,6 +43,7 @@
   },
   "exec": {
     "steps": [
+      "lib/mongodb",
       {
         "name": "email",
         "module": "return_json",
@@ -65,11 +66,12 @@
         "module": "mongo_find",
         "action": "mongo_find",
         "options": {
-          "database": "jams",
+          "database": "{{mdb}}",
           "collection": "users",
           "inboundtype": "JSON",
           "query": "{{email}}",
-          "querytype": "findOne"
+          "querytype": "findOne",
+          "conurl": "{{conurl}}"
         },
         "meta": [
           {
@@ -112,7 +114,7 @@
                 "module": "mongo_insert",
                 "action": "mongo_insert",
                 "options": {
-                  "database": "jams",
+                  "database": "{{mdb}}",
                   "collection": "users",
                   "vars": {
                     "firstname": "{{$_POST.firstname}}",
@@ -125,7 +127,8 @@
                     "userstate": "Not Approved",
                     "email": "{{$_POST.email}}",
                     "emailverified": "false"
-                  }
+                  },
+                  "conurl": "{{conurl}}"
                 },
                 "meta": [
                   {

@@ -10,16 +10,18 @@
   },
   "exec": {
     "steps": [
+      "lib/mongodb",
       {
         "name": "CheckEmail",
         "module": "mongo_find",
         "action": "mongo_find",
         "options": {
           "collection": "users",
-          "database": "jams",
+          "database": "{{mdb}}",
           "inboundtype": "JSON",
           "query": "{{$_POST}}",
-          "querytype": "count"
+          "querytype": "count",
+          "conurl": "{{conurl}}"
         },
         "meta": [
           {

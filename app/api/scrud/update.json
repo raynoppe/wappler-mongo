@@ -1,0 +1,111 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "_id"
+      },
+      {
+        "type": "text",
+        "name": "teamname"
+      },
+      {
+        "type": "array",
+        "name": "teammembers"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      "lib/mongodb",
+      {
+        "name": "exec",
+        "module": "core",
+        "action": "exec",
+        "options": {
+          "exec": "secure"
+        }
+      },
+      {
+        "name": "recordquery",
+        "module": "return_json",
+        "action": "return_json",
+        "options": {
+          "usemethod": "internal",
+          "pass": "simple",
+          "usename": "_id",
+          "inbound": "{{$_POST._id}}"
+        },
+        "meta": [
+          {
+            "name": "json",
+            "type": "object"
+          }
+        ]
+      },
+      {
+        "name": "",
+        "module": "core",
+        "action": "trycatch",
+        "options": {
+          "try": {
+            "steps": [
+              {
+                "name": "doteamupdate",
+                "module": "mongo_update",
+                "action": "mongo_update",
+                "options": {
+                  "database": "{{mdb}}",
+                  "collection": "teams",
+                  "conurl": "{{conurl}}",
+                  "inboundtype": "JSON",
+                  "query": "{{recordquery}}",
+                  "vars": {
+                    "teamname": "{{$_POST.teamname}}",
+                    "updatedAt": "{{NOW}}",
+                    "teammembers": "{{$_POST.teammembers}}"
+                  }
+                },
+                "meta": [
+                  {
+                    "name": "result",
+                    "type": "array"
+                  }
+                ]
+              },
+              {
+                "name": "updated",
+                "module": "return_json",
+                "action": "return_json",
+                "options": {
+                  "usemethod": "toclient",
+                  "usestatus": 200,
+                  "pass": "simple",
+                  "inbound": "{{doteamupdate.result.nModified}}",
+                  "usename": "modified"
+                },
+                "meta": [
+                  {
+                    "name": "json",
+                    "type": "object"
+                  }
+                ]
+              }
+            ]
+          },
+          "catch": {
+            "steps": {
+              "name": "updateerr",
+              "module": "core",
+              "action": "response",
+              "options": {
+                "status": 500,
+                "data": "update error"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

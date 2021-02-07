@@ -33,7 +33,7 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.21.6",
     "mime-types": "^2.1.27",
-    "mongodb": "^3.6.3",
+    "mongodb": "^3.6.4",
     "mssql": "^6.2.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",

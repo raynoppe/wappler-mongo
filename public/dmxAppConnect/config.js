@@ -72,6 +72,14 @@ dmx.config({
       {
         "type": "text",
         "name": "role"
+      },
+      {
+        "type": "text",
+        "name": "teamid"
+      },
+      {
+        "type": "text",
+        "name": "teamname"
       }
     ],
     "api1": [
@@ -155,7 +163,200 @@ dmx.config({
           }
         ]
       }
-    ]
+    ],
+    "getteam": [
+      {
+        "type": "object",
+        "name": "data",
+        "sub": [
+          {
+            "type": "object",
+            "name": "result",
+            "sub": [
+              {
+                "type": "text",
+                "name": "_id"
+              },
+              {
+                "type": "text",
+                "name": "teamname"
+              },
+              {
+                "type": "array",
+                "name": "teammembers",
+                "sub": [
+                  {
+                    "type": "text",
+                    "name": "_id"
+                  },
+                  {
+                    "type": "text",
+                    "name": "firstname"
+                  },
+                  {
+                    "type": "text",
+                    "name": "lastname"
+                  },
+                  {
+                    "type": "text",
+                    "name": "email"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "name": "createdAt"
+              },
+              {
+                "type": "text",
+                "name": "updatedAt"
+              },
+              {
+                "type": "text",
+                "name": "createdBy"
+              },
+              {
+                "type": "text",
+                "name": "createdByName"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "connection"
+          },
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "etag"
+          },
+          {
+            "type": "text",
+            "name": "keep-alive"
+          },
+          {
+            "type": "text",
+            "name": "vary"
+          }
+        ]
+      }
+    ],
+    "getteams": [
+      {
+        "type": "object",
+        "name": "data",
+        "sub": [
+          {
+            "type": "array",
+            "name": "results",
+            "sub": [
+              {
+                "type": "text",
+                "name": "_id"
+              },
+              {
+                "type": "text",
+                "name": "teamname"
+              },
+              {
+                "type": "array",
+                "name": "teammembers"
+              },
+              {
+                "type": "text",
+                "name": "createdAt"
+              },
+              {
+                "type": "text",
+                "name": "updatedAt"
+              },
+              {
+                "type": "text",
+                "name": "createdBy"
+              },
+              {
+                "type": "text",
+                "name": "createdByName"
+              },
+              {
+                "type": "text",
+                "name": "showDel"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "etag"
+          },
+          {
+            "type": "text",
+            "name": "vary"
+          }
+        ]
+      }
+    ],
+    "query": [
+      {
+        "type": "text",
+        "name": "teamid"
+      }
+    ],
+    "teammembers": {
+      "meta": [
+        {
+          "type": "text",
+          "name": "_id"
+        },
+        {
+          "type": "text",
+          "name": "firstname"
+        },
+        {
+          "type": "text",
+          "name": "lastname"
+        },
+        {
+          "type": "text",
+          "name": "email"
+        }
+      ],
+      "outputType": "array"
+    }
   },
   "users": {
     "api1": [
@@ -266,6 +467,168 @@ dmx.config({
             "name": "vary"
           }
         ]
+      }
+    ]
+  },
+  "teams": {
+    "getteams": [
+      {
+        "type": "object",
+        "name": "data",
+        "sub": [
+          {
+            "type": "array",
+            "name": "results",
+            "sub": [
+              {
+                "type": "text",
+                "name": "_id"
+              },
+              {
+                "type": "text",
+                "name": "teamname"
+              },
+              {
+                "type": "array",
+                "name": "teammembers"
+              },
+              {
+                "type": "text",
+                "name": "createdAt"
+              },
+              {
+                "type": "text",
+                "name": "updatedAt"
+              },
+              {
+                "type": "text",
+                "name": "createdBy"
+              },
+              {
+                "type": "text",
+                "name": "createdByName"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "connection"
+          },
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "etag"
+          },
+          {
+            "type": "text",
+            "name": "keep-alive"
+          },
+          {
+            "type": "text",
+            "name": "vary"
+          }
+        ]
+      }
+    ]
+  },
+  "teamedit": {
+    "getteam": [
+      {
+        "type": "object",
+        "name": "data",
+        "sub": [
+          {
+            "type": "object",
+            "name": "result",
+            "sub": [
+              {
+                "type": "text",
+                "name": "_id"
+              },
+              {
+                "type": "text",
+                "name": "teamname"
+              },
+              {
+                "type": "array",
+                "name": "teammembers"
+              },
+              {
+                "type": "text",
+                "name": "createdAt"
+              },
+              {
+                "type": "text",
+                "name": "updatedAt"
+              },
+              {
+                "type": "text",
+                "name": "createdBy"
+              },
+              {
+                "type": "text",
+                "name": "createdByName"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "object",
+        "name": "headers",
+        "sub": [
+          {
+            "type": "text",
+            "name": "connection"
+          },
+          {
+            "type": "text",
+            "name": "content-length"
+          },
+          {
+            "type": "text",
+            "name": "content-type"
+          },
+          {
+            "type": "text",
+            "name": "date"
+          },
+          {
+            "type": "text",
+            "name": "etag"
+          },
+          {
+            "type": "text",
+            "name": "keep-alive"
+          },
+          {
+            "type": "text",
+            "name": "vary"
+          }
+        ]
+      }
+    ],
+    "query": [
+      {
+        "type": "text",
+        "name": "teamid"
       }
     ]
   }
